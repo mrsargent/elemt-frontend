@@ -1,5 +1,6 @@
 import { Data, LucidEvolution, UTxO, Validator, validatorToAddress } from "@lucid-evolution/lucid";
 import { fromAddress, SimpleSaleDatum } from "./schemas";
+import { findIfPolicyIdMatches } from "./apitypes";
 
 
 // get all utxos
@@ -8,7 +9,7 @@ import { fromAddress, SimpleSaleDatum } from "./schemas";
 
 //how does the buy know what the seller address is in this???
 
-export const queryNFT = async (lucid: LucidEvolution, contractCbor: string, purchasePrice: bigint): Promise<UTxO[]> => {
+export const queryNFT = async (lucid: LucidEvolution, contractCbor: string, purchasePrice: bigint, sellerAddr: string, pid: string): Promise<UTxO[]> => {
 
   const contract: Validator = {
     type: "PlutusV2",
@@ -18,16 +19,29 @@ export const queryNFT = async (lucid: LucidEvolution, contractCbor: string, purc
 
 
   const allContractUtxos = await lucid.utxosAt(contractAddr);
-  const allUserContractUtxos = allContractUtxos.filter(async (value) => {
-    if (value.datum) {
-      const datum = Data.from(value.datum, SimpleSaleDatum);
-      const price_equal = datum.priceOfAsset === purchasePrice;
-      const same_addr = JSON.stringify(datum.sellerAddress) === JSON.stringify(fromAddress(await lucid.wallet().address()));
-      price_equal && same_addr;   
-     }       
-  }
-  );
-
-  return allUserContractUtxos;
+  const allUserContractUtxos = allContractUtxos.find((value) => {
+    try{
+      if (value.datum){
+        const datum = Data.from(value.datum!, SimpleSaleDatum);
+        const price_equal = datum.priceOfAsset === purchasePrice;        
+        const foundPId = findIfPolicyIdMatches(value,pid);        
+        const same_addr = JSON.stringify(datum.sellerAddress) === JSON.stringify(fromAddress(sellerAddr));
+        console.log("price equal -- ", datum.priceOfAsset === purchasePrice);
+        console.log("Address equivalent ",  JSON.stringify(datum.sellerAddress) === JSON.stringify(fromAddress(sellerAddr)));
+        console.log("everyting true ", price_equal && same_addr && foundPId);
+        console.log("found pid: ", foundPId);
+        return price_equal && same_addr && foundPId;
+      }
+      else {
+        return false;
+      }
+    }
+    catch(_){
+      return false;   
+    }
+      
+  });       
+  
+  return allUserContractUtxos ? [allUserContractUtxos] : [];
 
 }

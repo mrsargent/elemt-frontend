@@ -1,4 +1,4 @@
-import { LucidEvolution } from "@lucid-evolution/lucid"
+import { fromUnit, LucidEvolution, UTxO } from "@lucid-evolution/lucid"
 
 export type NFTMinterConfig = {   
     TokenName: string;
@@ -22,6 +22,7 @@ export type NFTMinterConfig = {
   export type BuyNFTConfig = {
     marketplace: string;
     sellerAddr: string;
+    pid:string;
   };
   
   export type Token = {
@@ -58,3 +59,15 @@ export type NFTMinterConfig = {
     }, {} as Record<string, Token>);
   };
   
+
+  export function findIfPolicyIdMatches(value: UTxO, pid: string): boolean {          
+    for (const [assetId, quantity] of Object.entries(value.assets)) {
+      const { policyId, assetName } = fromUnit(assetId);          
+      console.log(policyId, " --- ", pid); 
+      if (policyId == pid){
+        console.log("foudndPID has been triggered");
+        return true;
+      }
+    }    
+    return false;     
+  }

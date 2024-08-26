@@ -1,6 +1,6 @@
 import { Blockfrost, Data, fromText, fromUnit, Lucid, mintingPolicyToId, paymentCredentialOf, scriptFromNative, Validator, validatorToAddress } from "@lucid-evolution/lucid";
 import { NextApiRequest, NextApiResponse } from "next";
-import { parseAssetId, WithdrawNFTConfig } from "./apitypes";
+import { findIfPolicyIdMatches, parseAssetId, WithdrawNFTConfig } from "./apitypes";
 import { fromAddress, MarketRedeemerEnum, SimpleSaleDatum } from "./schemas";
 
 export default async function handler(
@@ -45,20 +45,10 @@ export default async function handler(
       const allUserContractUtxos = allContractUtxos.filter((value) => {
         if (value.datum) {
           try {
-            let foundPid: boolean = false;           
-            for (const [assetId, quantity] of Object.entries(value.assets)) {
-              const { policyId, assetName } = fromUnit(assetId);          
-              console.log(policyId, " --- ", pid); 
-              if (policyId == pid){
-                foundPid = true;
-                console.log("B has been triggered", foundPid);
-                break;
-              }
-            }
+            const foundPid = findIfPolicyIdMatches(value, pid);
             const datum = Data.from(value.datum, SimpleSaleDatum);
             const datumSellerAddr = JSON.stringify(datum.sellerAddress);
-            const inputSellerAddr = JSON.stringify(fromAddress(sellerAddr));
-           
+            const inputSellerAddr = JSON.stringify(fromAddress(sellerAddr));           
             console.log("pid equal", foundPid);
             console.log("seller equivalent", datumSellerAddr === inputSellerAddr);           
             return (datumSellerAddr === inputSellerAddr) && foundPid;

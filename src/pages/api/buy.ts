@@ -31,14 +31,13 @@ export default async function handler(
 
 
     const lucid = await initLucid();
-    const {marketplace, sellerAddr}: BuyNFTConfig = req.body; 
+    const {marketplace, sellerAddr, pid}: BuyNFTConfig = req.body; 
     console.log(sellerAddr);   
     
     lucid.selectWallet.fromAddress(sellerAddr, [])
 
-    const buyUtxo: UTxO[] = await queryNFT(lucid, marketplace, 10_000_000n);
+    const buyUtxo: UTxO[] = await queryNFT(lucid, marketplace, 10_000_000n, sellerAddr, pid);
     console.log(buyUtxo);
-    console.log(buyUtxo.length);
 
     const contract: Validator = {
         type: "PlutusV2",
@@ -46,9 +45,7 @@ export default async function handler(
       };
     
       const redeemer = Data.to("Buy", MarketRedeemerEnum);
-      const tx =
-        await
-        lucid
+      const tx = await lucid
           .newTx()
           .pay.ToAddress(sellerAddr, {lovelace: 10_000_000n})
           .collectFrom(buyUtxo, redeemer)

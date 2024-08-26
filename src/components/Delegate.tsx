@@ -106,7 +106,7 @@ const Delegate = async () => {
           body: JSON.stringify(body),
         });
       } else if (param === "Buy") {
-        const body: BuyNFTConfig = {marketplace: nftMarketPlace, sellerAddr: await lucid.wallet().address() };
+        const body: BuyNFTConfig = {marketplace: nftMarketPlace, sellerAddr: await lucid.wallet().address(), pid: tokenInfo.policyId };
         response = await fetch("/api/buy", {
           method: "POST",
           headers: {
