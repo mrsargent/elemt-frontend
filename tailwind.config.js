@@ -31,6 +31,8 @@ module.exports = {
           "error-content": "#f9f7fd",
         },
       },
+      "dark"
     ],
+
   },
 };

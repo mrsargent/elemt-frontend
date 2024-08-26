@@ -5,11 +5,11 @@ export default function Footer() {
   return (
     <footer className="footer footer-center p-10">
       <div>
-        <p className="font-bold">
-          Elemental Stake Pool <br />
-          Providing reliable staking services since 2020
+        <p className="font-bold text-lg">
+          NFT MarketPlace <br />
+          Providing a Marketplace since... Sunday evening
         </p>
-        <p>Copyright © 2023 - All right reserved</p>
+        <p>Copyright © 2024 - All right reserved</p>
       </div>
       <div>
         <div className="grid grid-flow-col gap-4">

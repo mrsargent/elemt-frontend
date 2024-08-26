@@ -22,7 +22,7 @@ const WalletModal = () => {
   return (
     <div>
       <button
-        className="btn btn-outline"
+        className="btn btn-primary"
         onClick={() => window.my_modal.showModal()}
       >
         {isConnected ? "CONNECTED" : "CONNECT"}
@@ -33,7 +33,7 @@ const WalletModal = () => {
             {installedExtensions.map((provider: string) => (
               <div key={provider} className="flex justify-around">
                 <button
-                  className="btn btn-outline"
+                  className="btn btn-primary"
                   onClick={() => connect(provider)}
                 >
                   {provider.toUpperCase()}
