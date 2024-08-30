@@ -40,10 +40,10 @@ export default async function handler(
           ],
         });
       };
-
+      
       const nativeMint = mkMintinPolicy(address);
       const nativePolicyId = mintingPolicyToId(nativeMint);
-    //!!!!!!!!!! ask jonathon on how to use the metadata function for CIP29 */
+    //!!!!!!!!!! ask jonathon on how to use the metadata function for CIP25 */
       const tx = await lucid
         .newTx()
         .pay.ToAddress(address, {
@@ -53,6 +53,15 @@ export default async function handler(
           [nativePolicyId + fromText(TokenName)]: 1n,
         })
         .attach.MintingPolicy(nativeMint)
+        .attachMetadata(721, {
+          [nativePolicyId]: {
+            [TokenName]: {
+              name: "Ryan Custom NFT",
+              image: "https://tenor.com/pLlg2NAkvnd.gif",
+              description: "CSA NFT Marketplace"
+            }
+          }
+        })
         .complete();
     res.status(200).json({ tx: tx.toCBOR() });
   } else {

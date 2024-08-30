@@ -20,16 +20,17 @@ const WalletConnect2 = async () => {
     <div className="flex items-center gap-3 sm:gap-6 lg:gap-8">
       {isConnected ? (
         <div className="flex items-center gap-3 sm:gap-6 lg:gap-8">
-          {/* <h1>       
-            {usedAddresses[0]!.slice(0, 10)}
+          <h1>    
+            {usedAddresses[0]}   
+            {/* {usedAddresses[0]!.slice(0, 10)}
             {"..."}
-            {usedAddresses[0]!.slice(usedAddresses[0]!.length - 6)}
-          </h1>  */}
-          <h1>            
+            {usedAddresses[0]!.slice(usedAddresses[0]!.length - 6)} */}
+          </h1> 
+          {/* <h1>            
             {stakeAddress!.slice(0, 10)}
             {"..."}
             {stakeAddress!.slice(stakeAddress!.length - 6)}
-          </h1>
+          </h1> */}
           <h1>{accountBalance}</h1>
           {/* <button className="btn btn-secondary">Button</button> */}
           <button

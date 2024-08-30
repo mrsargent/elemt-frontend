@@ -1,4 +1,5 @@
 import { fromUnit, LucidEvolution, UTxO } from "@lucid-evolution/lucid"
+import { hash_blake2b256 } from "lucid-cardano/types/src/core/libs/cardano_multiplatform_lib/cardano_multiplatform_lib.generated";
 
 export type NFTMinterConfig = {   
     TokenName: string;
@@ -71,3 +72,10 @@ export type NFTMinterConfig = {
     }    
     return false;     
   }
+
+  // export function serialzeAndHash(datum:any){
+  //   const serializeData = JSON.stringify(datum);
+  //   const encoder = new TextEncoder();
+  //   const encArr = encoder.encode(serializeData);
+  //   return hash_blake2b256(encArr);
+  // }

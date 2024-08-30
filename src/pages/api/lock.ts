@@ -48,11 +48,7 @@ export default async function handler(
       script: marketPlace,
     };
     const contractAddr = validatorToAddress("Preprod", contract);
-  
-    //TODO:
-    //build a the lockNFT transaction
-    //- lock the nft in the contract output
-    //- take use info , serialize into datum. datum must the lock at the contract output
+ 
     const tx = await lucid
       .newTx()
       .pay.ToAddressWithData(
