@@ -19,7 +19,7 @@ export const queryNFT = async (lucid: LucidEvolution, contractCbor: string, purc
 
 
   const allContractUtxos = await lucid.utxosAt(contractAddr);
-  const allUserContractUtxos = allContractUtxos.find((value) => {
+  const allUserContractUtxos = allContractUtxos.find((value) => {    
     try{
       if (value.datum){
         const datum = Data.from(value.datum!, SimpleSaleDatum);
