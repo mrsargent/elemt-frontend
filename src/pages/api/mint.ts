@@ -57,7 +57,7 @@ export default async function handler(
           [nativePolicyId]: {
             [TokenName]: {
               name: "Ryan Custom NFT",
-              image: "https://tenor.com/pLlg2NAkvnd.gif",
+              image: "https://capacitree.com/wp-content/uploads/2024/09/seed_nft.jpg",
               description: "CSA NFT Marketplace"
             }
           }

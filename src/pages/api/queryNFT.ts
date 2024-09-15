@@ -37,6 +37,7 @@ export const queryNFT = async (lucid: LucidEvolution, contractCbor: string, purc
       }
     }
     catch(_){
+      console.log("catch hit on query");
       return false;   
     }
       

@@ -1,9 +1,9 @@
-import { Blockfrost, Lucid, Validator, UTxO, Constr } from "@lucid-evolution/lucid";
+import { Blockfrost, Lucid, Validator, UTxO, Constr, Data, fromHex, toHex } from "@lucid-evolution/lucid";
 import { NextApiRequest, NextApiResponse } from "next";
 import { BuyNFTConfig } from "./apitypes";
 import { MarketRedeemerEnum, OutputReference } from "./schemas";
 import { queryNFT } from "./queryNFT";
-import {C, Data, fromHex, toHex} from "lucid-cardano"
+import {C} from "lucid-cardano"
 
 
 export default async function handler(
