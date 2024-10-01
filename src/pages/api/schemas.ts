@@ -79,6 +79,29 @@ export function fromAddress(address: Address): AddressObject {
 }
 
 
+// export function toAddress(paymentCredentialHash: string, stakeCredentialHash: string ): AddressObject {
+//   return {
+//     paymentCredential:
+//       paymentCredential?.type === "Key"
+//         ? {
+//             PublicKeyCredential: [paymentCredentialHash],
+//           }
+//         : { ScriptCredential: [paymentCredentialHash] },
+//     stakeCredential: stakeCredential
+//       ? {
+//           Inline: [
+//             stakeCredential.type === "Key"
+//               ? {
+//                   PublicKeyCredential: [stakeCredentialHash],
+//                 }
+//               : { ScriptCredential: [stakeCredentialHash] },
+//           ],
+//         }
+//       : null,
+//   };
+// }
+
+
 const OutputReferenceSchema = Data.Object({
   transaction_id: Data.Object({ 
     hash: Data.Bytes()
@@ -89,3 +112,14 @@ const OutputReferenceSchema = Data.Object({
 
 export type OutputReference = Data.Static<typeof OutputReferenceSchema>;
 export const OutputReference = OutputReferenceSchema as unknown as OutputReference;
+
+
+//-- Datum schema
+const SimpleSaleSchemaZero = Data.Object({
+  owner: AddressSchema,
+  sellerAddress: AddressSchema,
+  priceOfAsset: Data.Integer(),
+});
+
+export type SimpleSaleDatumZero = Data.Static<typeof SimpleSaleSchemaZero>;
+export const SimpleSaleDatumZero = SimpleSaleSchemaZero as unknown as SimpleSaleDatumZero;

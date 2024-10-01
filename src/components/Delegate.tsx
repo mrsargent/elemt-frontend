@@ -9,11 +9,11 @@ import {
   Lucid,
   UTxO
 } from "@lucid-evolution/lucid";
-import {aggregateTokens, BuyNFTConfig, hexToString, LockNFTConfig, NFTMinterConfig, parseAssetId, Token, WithdrawNFTConfig} from "./../pages/api/apitypes";
+import {aggregateTokens, BuyNFTConfig, hexToString, LockNFTConfig, NFTMinterConfig, parseAssetId, RegisterConfig, Token, WithdrawNFTConfig} from "./../pages/api/apitypes";
 import { useEffect, useState } from "react";
 
 
-type TransactionType = "Delegate" | "Mint" | "Withdraw" | "Lock" | "Buy"
+type TransactionType = "Delegate" | "Mint" | "Withdraw" | "Lock" | "Buy" | "Register" | "LockZero" | "BuyZero"
 
 const tokenInfo = fromUnit("b1d54b4cef31e9bc8705f14c2126878f129ccb4547009707af9365a05279616e437573746f6d");
 //nft marketplace with diagnostics
@@ -114,6 +114,35 @@ const Delegate = async () => {
           },
           body: JSON.stringify(body),
         });
+      } else if (param === "Register") {
+        const body: RegisterConfig = { paymentAddress: await lucid.wallet().address(),  stakeAddress: await lucid.wallet().rewardAddress() };
+        response = await fetch("/api/registerstakeaddress", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        }); 
+      } 
+      else if (param === "LockZero") {
+        const body: LockNFTConfig = {priceOfAsset: (10_000_000n).toString(), policyID: tokenInfo.policyId , TokenName: tokenInfo.assetName! ,marketPlace: "", sellerAddr: await lucid.wallet().address() };
+        response = await fetch("/api/lockwithdrawzero", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        }); 
+      } 
+      else if (param === "BuyZero") {
+        const body: RegisterConfig = { paymentAddress: await lucid.wallet().address(),  stakeAddress: await lucid.wallet().rewardAddress() };
+        response = await fetch("/api/buywithdrawzero", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        }); 
       } else {
         const body: NFTMinterConfig = {TokenName: "RyanCustom", address: usedAddresses[0]};
           response = await fetch("/api/mint", {
@@ -154,6 +183,15 @@ const Delegate = async () => {
             </button>
             <button className="btn btn-primary mb-4" onClick={() => handleAPI("Buy")}>
               Buy NFT
+            </button>
+            <button className="btn btn-primary mb-4" onClick={() => handleAPI("Register")}>
+              Register Stake
+            </button>
+            <button className="btn btn-primary mb-4" onClick={() => handleAPI("LockZero")}>
+              Lock Withdraw Zero
+            </button>
+            <button className="btn btn-primary mb-4" onClick={() => handleAPI("BuyZero")}>
+              Buy Withdraw Zero
             </button>
           </div>
               

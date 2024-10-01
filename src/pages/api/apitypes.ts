@@ -1,4 +1,4 @@
-import { fromUnit, LucidEvolution, UTxO } from "@lucid-evolution/lucid"
+import { fromUnit, LucidEvolution, RewardAddress, UTxO } from "@lucid-evolution/lucid"
 import { hash_blake2b256 } from "lucid-cardano/types/src/core/libs/cardano_multiplatform_lib/cardano_multiplatform_lib.generated";
 
 export type NFTMinterConfig = {   
@@ -30,6 +30,11 @@ export type NFTMinterConfig = {
     policyId: string;
     tokenName: string;
     quantity: bigint;
+  }
+
+  export type RegisterConfig = {
+    paymentAddress: string;
+    stakeAddress: string | null;
   }
   
 
